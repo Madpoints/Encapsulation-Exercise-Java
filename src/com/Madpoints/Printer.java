@@ -19,23 +19,41 @@ public class Printer {
         this.duplexPrinter = duplexPrinter;
     }
 
-    private String getManufacturer() {
-        return manufacturer;
+    public void getSpecs() {
+        System.out.println("Manufacturer: " + this.manufacturer);
+        System.out.println("Model: " + this.model);
+        System.out.println("Duplex Printer: " + this.duplexPrinter);
     }
 
-    private String getModel() {
-        return model;
+    public void checkLevels() {
+        System.out.println("Toner Level: " + this.tonerLevel + "%");
+        System.out.println("Total Pages Printed: " + this.pagesPrinted);
     }
 
-    private double getTonerLevel() {
-        return tonerLevel;
+    public void addToner(double toner) {
+        if (this.tonerLevel + toner > 100) {
+            this.tonerLevel = 100;
+        } else {
+            this.tonerLevel += toner;
+        }
+
+        System.out.println("Toner level increased.");
+        checkLevels();
     }
 
-    private int getPagesPrinted() {
-        return pagesPrinted;
-    }
+    public void print(int pages) {
+        if (this.tonerLevel - (pages * .25) < 0) {
+            System.out.println("Cannot print. Refill toner.");
+            checkLevels();
+        } else {
+            this.tonerLevel -= (pages * .25);
+            this.pagesPrinted += pages;
+            System.out.println("Printed " + pages + " pages.");
+            checkLevels();
+        }
 
-    private boolean isDuplexPrinter() {
-        return duplexPrinter;
+        if (this.tonerLevel < 25) {
+            System.out.println("Toner level low");
+        }
     }
 }
